@@ -31,6 +31,7 @@ class BookRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BookSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly] # Only authenticated users can modify
 '''
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework import generics, permissions, mixins
 from .models import Book
 from .serializers import BookSerializer
@@ -142,4 +143,5 @@ class BookDeleteView(DeleteView):
     model = Book
     template_name = "book_confirm_delete.html"
     success_url = reverse_lazy("book_list")
+
 
