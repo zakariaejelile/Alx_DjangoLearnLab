@@ -31,14 +31,14 @@ class BookRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BookSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly] # Only authenticated users can modify
 '''
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
-from rest_framework import generics, permissions, mixins
+from rest_framework import generics, permissions, filters ,mixins
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Book
 from .serializers import BookSerializer
 
 
-class BookListView(mixins.ListModelMixin,
-                   generics.GenericAPIView):
+
+class BookListView(generics.ListAPIView):
     """
     ListView:
     - Lists all books (GET)
@@ -48,8 +48,20 @@ class BookListView(mixins.ListModelMixin,
     serializer_class = BookSerializer
     permission_classes = [permissions.AllowAny]  # Read access to everyone
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+    def get_queryset(self):
+        return Book.objects.all()
+
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter
+    ]
+    filterset_fields = ['author', 'publication_year']
+    search_fields = ['title', 'author']
+    ordering_fields = ['title', 'publication_year']
+    ordering = ['title']
+
+
 
 
 class BookDetailView(mixins.RetrieveModelMixin,
@@ -143,5 +155,4 @@ class BookDeleteView(DeleteView):
     model = Book
     template_name = "book_confirm_delete.html"
     success_url = reverse_lazy("book_list")
-
 
