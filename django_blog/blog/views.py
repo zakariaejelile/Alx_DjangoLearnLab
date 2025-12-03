@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import CustomUserCreationForm
 from .models import Post
+from django.contrib.auth.decorators import login_required
 
 # Home View - Display all blog posts
 def home(request):
