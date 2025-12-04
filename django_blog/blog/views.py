@@ -182,16 +182,17 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         return self.object.post.get_absolute_url()
 
 from django.views.generic import ListView
-from .models import Post
+from .models import Post, Tag
 
-class TagPostListView(ListView):
+class PostByTagListView(ListView):
     model = Post
     template_name = "blog/tag_posts.html"
     context_object_name = "posts"
 
     def get_queryset(self):
-        tag = self.kwargs.get("tag_name")
-        return Post.objects.filter(tags__name=tag)
+        tag_slug = self.kwargs.get('tag_slug')
+        return Post.objects.filter(tags__slug=tag_slug)
+
 
 from django.db.models import Q
 from django.views.generic import ListView
@@ -211,6 +212,5 @@ class SearchResultsView(ListView):
                 Q(tags__name__icontains=query)
             ).distinct()
         return Post.objects.none()
-
 
 
