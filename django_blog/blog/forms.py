@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .forms import TagWidget
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -40,7 +41,7 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['title', 'content', 'tags']
         widgets = {
-            'tags': forms.CheckboxSelectMultiple(),
+            'tags': TagWidget(), # Using the custom TagWidget
         }
 
 from django import forms
@@ -50,3 +51,10 @@ class TagForm(forms.ModelForm):
     class Meta:
         model = Tag
         fields = ['name']
+
+
+from django import forms
+from taggit.forms import TagWidget as BaseTagWidget
+
+class TagWidget(BaseTagWidget):
+    pass  #  customize it later
