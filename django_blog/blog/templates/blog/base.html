@@ -19,6 +19,11 @@
 
     <div class="content">
         {% block content %}
+        <form method="GET" action="{% url 'search-results' %}">
+            <input type="text" name="q" placeholder="Search posts...">
+            <button type="submit">Search</button>
+        </form>
+
         <!-- Page-specific content goes here -->
         {% endblock %}
     </div>
