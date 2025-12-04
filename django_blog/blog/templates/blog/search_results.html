@@ -1,0 +1,7 @@
+<h2>Search Results</h2>
+
+{% for post in object_list %}
+    <h3><a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a></h3>
+{% empty %}
+    <p>No posts found.</p>
+{% endfor %}
