@@ -10,7 +10,6 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ("username", "email", "password1", "password2")
 
     
-# blog/forms.py
 from django import forms
 from .models import Post
 
@@ -18,6 +17,7 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'content']
+
 
 
 from django import forms
@@ -31,3 +31,22 @@ class CommentForm(forms.ModelForm):
             'content': forms.Textarea(attrs={'rows': 3})
         }
 
+
+from django import forms
+from .models import Post, Tag
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'tags']
+        widgets = {
+            'tags': forms.CheckboxSelectMultiple(),
+        }
+
+from django import forms
+from .models import Tag
+
+class TagForm(forms.ModelForm):
+    class Meta:
+        model = Tag
+        fields = ['name']
