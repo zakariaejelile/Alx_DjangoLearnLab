@@ -74,27 +74,25 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import get_user_model
+from .models import CustomUser
+
 
 User = get_user_model()
-
 
 class FollowUserView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, user_id):
-        user_to_follow = get_object_or_404(User, id=user_id)
-
-        if user_to_follow == request.user:
-            return Response({"error": "You cannot follow yourself"}, status=400)
-
+        user_to_follow = get_object_or_404(CustomUser, id=user_id)
         request.user.following.add(user_to_follow)
-        return Response({"message": "User followed successfully"})
-    
+        return Response({"message": "User followed"})
+
+
 class UnfollowUserView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, user_id):
-        user_to_unfollow = get_object_or_404(User, id=user_id)
-
+        user_to_unfollow = get_object_or_404(CustomUser, id=user_id)
         request.user.following.remove(user_to_unfollow)
-        return Response({"message": "User unfollowed successfully"})
+        return Response({"message": "User unfollowed"})
+
