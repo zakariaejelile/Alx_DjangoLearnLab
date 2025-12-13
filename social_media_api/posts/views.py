@@ -36,25 +36,16 @@ class CommentViewSet(viewsets.ModelViewSet):
 def perform_create(self, serializer):
     serializer.save(author=self.request.user)
 
+
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .models import Post
+from rest_framework import status, permissions
+from django.shortcuts import get_object_or_404
+from django.contrib.auth import get_user_model
+from .models import Post, Like
 from .serializers import PostSerializer
-from rest_framework import generics, permissions
 
-class FeedView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request):
-        following_users = request.user.following.all()
-        posts = Post.objects.filter(author__in=following_users).order_by('-created_at')
-        serializer = PostSerializer(posts, many=True)
-        return Response(serializer.data)
-
-
-
-
+User = get_user_model()
 
 
 class LikePostView(APIView):
@@ -79,3 +70,12 @@ class UnlikePostView(APIView):
             return Response({"detail": "Post unliked"}, status=status.HTTP_200_OK)
         return Response({"detail": "You haven't liked this post"}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class FeedView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        following_users = request.user.following.all()
+        posts = Post.objects.filter(author__in=following_users).order_by('-created_at')
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
