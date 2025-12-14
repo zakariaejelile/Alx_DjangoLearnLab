@@ -21,10 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fallback-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
+DEBUG = False
 
 # Allowed hosts for your domain or Heroku app
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'your-app.herokuapp.com').split(',')
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+
 
 # Application definition
 INSTALLED_APPS = [
@@ -121,7 +123,9 @@ REST_FRAMEWORK = {
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_SSL_REDIRECT = os.environ.get('DJANGO_SECURE_SSL_REDIRECT', 'False') == 'True'
+SECURE_SSL_REDIRECT = True  # Only if using HTTPS
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
