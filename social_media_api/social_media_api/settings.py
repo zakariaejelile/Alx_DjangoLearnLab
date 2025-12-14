@@ -82,6 +82,7 @@ DATABASES = {
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"  # fallback to SQLite for local dev
     )
 }
+PORT = 8000
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -129,3 +130,4 @@ CSRF_COOKIE_SECURE = True
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
