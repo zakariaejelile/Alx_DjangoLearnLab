@@ -4,12 +4,15 @@ from rest_framework import status, permissions, generics
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
+from .models import CustomUser
+
 
 from .serializers import RegisterSerializer, LoginSerializer, UserSerializer
 from notifications.models import Notification
 
 User = get_user_model()
 
+CustomUser.objects.all()
 
 
 class RegisterView(generics.GenericAPIView):
