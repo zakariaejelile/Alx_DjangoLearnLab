@@ -3,8 +3,9 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, permissions, generics
 from .models import Post, Like, Comment
+from notifications.models import Notification
 from .serializers import PostSerializer, CommentSerializer
 
 User = get_user_model()
