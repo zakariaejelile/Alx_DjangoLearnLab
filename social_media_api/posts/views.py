@@ -1,14 +1,16 @@
-from rest_framework import viewsets, permissions, filters, generics, status
+from rest_framework import viewsets, permissions, filters
+from django.shortcuts import get_object_or_404
+from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.contrib.auth import get_user_model
-
-from .models import Post, Comment, Like
+from rest_framework import status
+from .models import Post, Like, Comment
 from .serializers import PostSerializer, CommentSerializer
-from .permissions import IsOwnerOrReadOnly
-from notifications.models import Notification
 
 User = get_user_model()
+
+following_users = None
+Post.objects.filter(author__in=following_users).order_by  
 
 
 
